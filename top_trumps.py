@@ -64,6 +64,7 @@ def is_end_of_game(hands):
 # play the game and return the number of exchanges
 def play_game(hands, max_exchanges=MAX_EXCHANGES):
   exchange = 0
+  null_card = Card([0] * len(hands[0].cards[0].stats))
   while exchange < max_exchanges and not is_end_of_game(hands):
     winner = 0
     bank = []
@@ -71,9 +72,12 @@ def play_game(hands, max_exchanges=MAX_EXCHANGES):
     while winner == 0 and not is_end_of_game(hands):
       cards = []
       for hand in hands:
-        card = hand.next()
+        if len(hand.cards) == 0:
+          card = null_card
+        else:
+          card = hand.next()
+          bank.append(card)
         cards.append(card)
-        bank.append(card)
       
       stat_index = cards[turn].get_highest_stat_index()
       winner = compare_cards(cards, stat_index)
@@ -83,7 +87,6 @@ def play_game(hands, max_exchanges=MAX_EXCHANGES):
           hands[winner].add(card)
 
       exchange += 1
-      hands = [hand for hand in hands if len(hand.cards) > 0]
   
   return exchange
 
