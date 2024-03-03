@@ -16,13 +16,24 @@ class Card:
     return self.stats[index]
   
   # selects random stat if there are multiple stats with the same value
-  def get_highest_stat_index(self) -> int:
-    highest = max(self.stats)
-    highest_stats = [i for i, v in enumerate(self.stats) if v == highest]
+  def get_highest_stat_index(self, deck_stats) -> int:
+    stats_relative = [((self.stats[i] - deck_stats.min[i]) / (deck_stats.max[i] - deck_stats.min[i])) for i in range(len(self.stats))]
+    highest = max(stats_relative)
+    highest_stats = [i for i, v in enumerate(stats_relative) if v == highest]
     return random.choice(highest_stats)
   
-  def get_random_stat_index(self) -> int:
+  def get_random_stat_index(self, _) -> int:
     return random.randint(0, len(self.stats) - 1)
+
+class DeckStats:
+  def __init__(self, statsNumber):
+    self.min = [1000000] * statsNumber
+    self.max = [-1000000] * statsNumber
+  
+  def update(self, stats):
+    for i in range(len(stats)):
+      self.min[i] = min(self.min[i], stats[i])
+      self.max[i] = max(self.max[i], stats[i])
 
 class Hand:
   def __init__(self, cards):
@@ -41,10 +52,16 @@ def read_deck_from_csv(file_name) -> list[Card]:
   with open(file_name, 'r') as file:
     deck = []
     # skip the header
-    next(file)
+    header = next(file)
+    number_of_stats = len(header.split(';')) - 1
+    deck_stats = DeckStats(number_of_stats)
     for line in file:
-      deck.append(create_card_from_string(line))
-  return deck
+      card = create_card_from_string(line)
+      if len(card.stats) != number_of_stats:
+        raise ValueError(f"Invalid number of stats in card: {line}")
+      deck_stats.update(card.stats)
+      deck.append(card)
+  return deck, deck_stats
 
 # compare cards based on specific stat and return the winner card index
 # if there is no winner return None
@@ -67,7 +84,7 @@ def is_end_of_game(hands):
   return len([True for hand in hands if len(hand.cards) > 0]) == 1
 
 # play the game and return the number of exchanges
-def play_game(hands, max_exchanges, get_stat_index_method) -> int:
+def play_game(deck_stats, hands, max_exchanges, get_stat_index_method) -> int:
   exchange = 0
   null_card = Card([0] * len(hands[0].cards[0].stats))
   get_stat_index = getattr(Card, get_stat_index_method)
@@ -85,7 +102,7 @@ def play_game(hands, max_exchanges, get_stat_index_method) -> int:
           bank.append(card)
         cards.append(card)
       
-      stat_index = get_stat_index(cards[turn])
+      stat_index = get_stat_index(cards[turn], deck_stats)
       winner = compare_cards(cards, stat_index)
 
       if winner is not None:
@@ -101,13 +118,13 @@ def main(number_of_players=NUMBER_OF_PLAYERS, emulations=EMULATIONS, max_exchang
   for deck_file in glob.glob('decks/*.csv'):
     print(f"Deck: {deck_file.split('/')[1].split('.')[0]}\n")
 
-    deck = read_deck_from_csv(deck_file)
+    deck, deck_stats = read_deck_from_csv(deck_file)
 
     total_exchanges = 0
     endless_games = 0
     for i in range(emulations):
       hands = deal(deck, number_of_players)
-      exchanges = play_game(hands, max_exchanges, get_stat_index_method)
+      exchanges = play_game(deck_stats, hands, max_exchanges, get_stat_index_method)
       if exchanges == max_exchanges:
         endless_games += 1
       total_exchanges += exchanges
