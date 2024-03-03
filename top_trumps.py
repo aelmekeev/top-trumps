@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 import glob
 import random
 
@@ -116,4 +117,11 @@ def main(number_of_players=NUMBER_OF_PLAYERS, emulations=EMULATIONS, max_exchang
     print(f"Number of endless games: {endless_games} ({endless_games * 100 // emulations}%)\n\n")
 
 if __name__ == '__main__':
-    main()
+    # read parameters from the command line
+    parser = ArgumentParser()
+    parser.add_argument('--number_of_players', type=int, default=NUMBER_OF_PLAYERS)
+    parser.add_argument('--emulations', type=int, default=EMULATIONS)
+    parser.add_argument('--max_exchanges', type=int, default=MAX_EXCHANGES)
+    parser.add_argument('--get_stat_index_method', type=str, default='get_highest_stat_index')
+    args = parser.parse_args()
+    main(args.number_of_players, args.emulations, args.max_exchanges, args.get_stat_index_method)
