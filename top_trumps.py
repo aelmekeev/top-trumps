@@ -114,9 +114,9 @@ def play_game(pack_stats, hands, max_exchanges, get_stat_index_method) -> int:
   return exchange
 
 # for each csv files in packs folder play the game and print the average number of exchanges
-def main(number_of_players=NUMBER_OF_PLAYERS, emulations=EMULATIONS, max_exchanges=MAX_EXCHANGES, get_stat_index_method='get_highest_stat_index') -> None:
-  for pack_file in glob.glob('packs/*.csv'):
-    print(f"Pack: {pack_file.split('/')[1].split('.')[0]}\n")
+def main(pack, number_of_players, emulations, max_exchanges, get_stat_index_method) -> None:
+  for pack_file in glob.glob(pack):
+    print(f"Pack: {pack_file.split('/')[-1].split('.')[0]}\n")
 
     pack, pack_stats = read_pack_from_csv(pack_file)
 
@@ -140,5 +140,6 @@ if __name__ == '__main__':
     parser.add_argument('--emulations', type=int, default=EMULATIONS)
     parser.add_argument('--max_exchanges', type=int, default=MAX_EXCHANGES)
     parser.add_argument('--get_stat_index_method', type=str, default='get_highest_stat_index')
+    parser.add_argument('--pack', type=str, default='packs/*.csv')
     args = parser.parse_args()
-    main(args.number_of_players, args.emulations, args.max_exchanges, args.get_stat_index_method)
+    main(args.pack, args.number_of_players, args.emulations, args.max_exchanges, args.get_stat_index_method)
