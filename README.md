@@ -16,8 +16,6 @@ The classic decks are a bit more tricky as stats values may vary significantly -
 
 What if each player selects a stat at random during their turn? The playtime still averages `26-30 minutes`.
 
-So, maybe the 3-10 minutes is just how much patience the average adult has to play the game with their children?
-
 ## Test conditions
 
 * Games emulated - `10,000`
@@ -41,3 +39,7 @@ It appears that all the decks have unique cards in terms of stats, even the ones
 
 Some decks contain cards that are identical in terms of stats, for example:
 * McDonald's Minions: Rise of Gru - `Jean-Clawed` and `Svengeance`
+
+## More on this
+
+* [Ultimate Top Trumps](https://ultimate-top-trumps.co.uk/) - great online collection of Top Trump packs
