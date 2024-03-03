@@ -1,8 +1,9 @@
 import glob
 import random
 
-NUMBER_OF_PLAYERS = 2
 AVERAGE_NUMBER_OF_SECONDS_PER_EXCHANGE = 8
+
+NUMBER_OF_PLAYERS = 2
 MAX_EXCHANGES = 500
 EMULATIONS = 10000
 
@@ -10,29 +11,32 @@ class Card:
   def __init__(self, stats):
     self.stats = stats
 
-  def get_stat(self, index):
+  def get_stat(self, index) -> int:
     return self.stats[index]
   
   # selects random stat if there are multiple stats with the same value
-  def get_highest_stat_index(self):
+  def get_highest_stat_index(self) -> int:
     highest = max(self.stats)
     highest_stats = [i for i, v in enumerate(self.stats) if v == highest]
     return random.choice(highest_stats)
+  
+  def get_random_stat_index(self) -> int:
+    return random.randint(0, len(self.stats) - 1)
 
 class Hand:
   def __init__(self, cards):
     self.cards = cards
 
-  def next(self):
+  def next(self) -> Card:
     return self.cards.pop(0)
   
-  def add(self, card):
+  def add(self, card) -> None:
     self.cards.append(card)
 
-def create_card_from_string(card_string):
+def create_card_from_string(card_string) -> Card:
   return Card([int(x) for x in card_string.split(';')[1:]])
 
-def read_deck_from_csv(file_name):
+def read_deck_from_csv(file_name) -> list[Card]:
   with open(file_name, 'r') as file:
     deck = []
     # skip the header
@@ -51,7 +55,7 @@ def compare_cards(cards, stat_index):
   else:
     return card_stats.index(max_stat)
   
-def deal(deck, number_of_players):
+def deal(deck, number_of_players) -> list[Hand]:
   random.shuffle(deck)
   hands = []
   for i in range(number_of_players):
@@ -62,9 +66,10 @@ def is_end_of_game(hands):
   return len([True for hand in hands if len(hand.cards) > 0]) == 1
 
 # play the game and return the number of exchanges
-def play_game(hands, max_exchanges=MAX_EXCHANGES):
+def play_game(hands, max_exchanges, get_stat_index_method) -> int:
   exchange = 0
   null_card = Card([0] * len(hands[0].cards[0].stats))
+  get_stat_index = getattr(Card, get_stat_index_method)
   while exchange < max_exchanges and not is_end_of_game(hands):
     winner = 0
     bank = []
@@ -79,7 +84,7 @@ def play_game(hands, max_exchanges=MAX_EXCHANGES):
           bank.append(card)
         cards.append(card)
       
-      stat_index = cards[turn].get_highest_stat_index()
+      stat_index = get_stat_index(cards[turn])
       winner = compare_cards(cards, stat_index)
 
       if winner is not None:
@@ -91,7 +96,7 @@ def play_game(hands, max_exchanges=MAX_EXCHANGES):
   return exchange
 
 # for each csv files in decks folder play the game and print the average number of exchanges
-def main() -> None:
+def main(number_of_players=NUMBER_OF_PLAYERS, emulations=EMULATIONS, max_exchanges=MAX_EXCHANGES, get_stat_index_method='get_highest_stat_index') -> None:
   for deck_file in glob.glob('decks/*.csv'):
     print(f"Deck: {deck_file.split('/')[1].split('.')[0]}\n")
 
@@ -99,16 +104,16 @@ def main() -> None:
 
     total_exchanges = 0
     endless_games = 0
-    for i in range(EMULATIONS):
-      hands = deal(deck, NUMBER_OF_PLAYERS)
-      exchanges = play_game(hands)
-      if exchanges == MAX_EXCHANGES:
+    for i in range(emulations):
+      hands = deal(deck, number_of_players)
+      exchanges = play_game(hands, max_exchanges, get_stat_index_method)
+      if exchanges == max_exchanges:
         endless_games += 1
       total_exchanges += exchanges
 
-    print(f"Average number of exchanges: {total_exchanges // EMULATIONS}")
-    print(f"Average number of minutes per game: {round(total_exchanges * AVERAGE_NUMBER_OF_SECONDS_PER_EXCHANGE / 60 / EMULATIONS)}")
-    print(f"Number of endless games: {endless_games} ({endless_games * 100 // EMULATIONS}%)\n\n")
+    print(f"Average number of exchanges: {total_exchanges // emulations}")
+    print(f"Average number of minutes per game: {round(total_exchanges * AVERAGE_NUMBER_OF_SECONDS_PER_EXCHANGE / 60 / emulations)}")
+    print(f"Number of endless games: {endless_games} ({endless_games * 100 // emulations}%)\n\n")
 
 if __name__ == '__main__':
     main()

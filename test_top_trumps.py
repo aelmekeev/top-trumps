@@ -78,7 +78,7 @@ class TestTopTrumps(unittest.TestCase):
         # >2 2
         # 1 >3
         # 0 4
-        self.assertEqual(play_game([hand1, hand2]), 2)
+        self.assertEqual(play_game([hand1, hand2], MAX_EXCHANGES, 'get_highest_stat_index'), 2)
 
     def test_play_game_3(self):
         hand1 = Hand([Card([1, 2, 3, 4]), Card([5, 6, 7, 8])])
@@ -87,17 +87,17 @@ class TestTopTrumps(unittest.TestCase):
         # >2 2 2
         # 1 >1 3
         # 0 0 4
-        self.assertEqual(play_game([hand1, hand2, hand3]), 2)
+        self.assertEqual(play_game([hand1, hand2, hand3], MAX_EXCHANGES, 'get_highest_stat_index'), 2)
 
     def test_play_game_endless(self):
         hand1 = Hand([Card([1, 2, 3, 4]), Card([13, 14, 15, 16])])
         hand2 = Hand([Card([9, 10, 11, 12]), Card([5, 6, 7, 8])])
-        self.assertEqual(play_game([hand1, hand2], 5), 5)
+        self.assertEqual(play_game([hand1, hand2], 5, 'get_highest_stat_index'), 5)
 
     def test_play_game_bank(self):
         hand1 = Hand([Card([1, 2, 3, 4]), Card([13, 14, 15, 16]), Card([13, 14, 15, 16])])
         hand2 = Hand([Card([1, 2, 3, 4]), Card([5, 6, 7, 8]), Card([5, 6, 7, 8])])
-        self.assertEqual(play_game([hand1, hand2]), 3)
+        self.assertEqual(play_game([hand1, hand2], MAX_EXCHANGES, 'get_highest_stat_index'), 3)
 
 if __name__ == '__main__':
     unittest.main()
