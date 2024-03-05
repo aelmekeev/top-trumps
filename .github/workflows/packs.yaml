@@ -24,4 +24,3 @@ jobs:
       - name: Run tests
         run: |
           python top_trumps.py --emulations 10 --pack ${{ matrix.pack }}
-```
