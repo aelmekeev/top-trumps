@@ -40,6 +40,10 @@ It appears that all the decks have unique cards in terms of stats, even the ones
 Some decks contain cards that are identical in terms of stats, for example:
 * McDonald's Minions: Rise of Gru - `Jean-Clawed` and `Svengeance`
 
+### Unusual stats
+
+* [Seattle 30 Top Things to See](https://ultimate-top-trumps.co.uk/usa/winning_moves/winning_moves/seattle_30_things_to_see.html) has some stats with `n/a` 
+
 ## Resources
 
 * [Ultimate Top Trumps](https://ultimate-top-trumps.co.uk/) - great online collection of Top Trump packs
