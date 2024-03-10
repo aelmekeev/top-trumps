@@ -10,34 +10,34 @@ Wikipedia states that the playing time is 3-10 minutes. But is it, though?
 
 ## So, what is the real playtime?
 
-The playtime for the decks from McDonald's should be quite predictable, even for the very first game, since their stats are always between 1 and 10, averaging about `35 minutes`.
+The playtime for the packs from McDonald's should be quite predictable, even for the very first game, since their stats are always between 1 and 10. Based on emulations, the average playtime is about [`35 minutes`](https://github.com/aelmekeev/top-trumps/actions/workflows/packs.yaml).
 
-The classic decks are a bit more tricky as stats values may vary significantly - year, height, price, etc. I need to gather some examples before sharing any number here.
+The classic packs are a bit more complex, as the values of their stats can vary significantly — including year, height, price, etc. It may take a few games to determine what should be considered a "high" value for each stat, but otherwise, the gameplay doesn't differ much. Nonetheless, the classic packs show more variability in terms of playtime, ranging from [`34 to 56 minutes`](https://github.com/aelmekeev/top-trumps/actions/workflows/packs.yaml). In the first few games, where players might choose stats nearly at random, [the duration of the game can be reduced by up to 20%](https://github.com/aelmekeev/top-trumps/actions/workflows/strategies.yaml).
 
-What if each player selects a stat at random during their turn? The playtime still averages `26-30 minutes`.
+As evident, none of these durations come close to the 3-10 minutes mentioned on Wikipedia.
 
 ## Test conditions
 
 * Games emulated - `10,000`
-  * With this number, the average game duration deviates within ~2%.
+  * With this number, [the average game duration deviates within ~2%](https://github.com/aelmekeev/top-trumps/actions/workflows/emulations.yaml).
 * Number of players - `3`
-  * The average playtime decreases as more players join.
+  * The average playtime [decreases as more players join](https://github.com/aelmekeev/top-trumps/actions/workflows/players.yaml).
 * Average number of seconds per exchange - `8`
   * Based on tests conducted with the 7 years old.
 * Max exchanges - `450`
   * The assumption here is that after an hour, hardly anyone would want to continue playing the game.
 
-Tests were run with the decks from `decks`.
+Tests were run with the packs from `packs`.
 
 ## Other observations
 
-### Are the stats identical between decks?
+### Are the stats identical between packs?
 
-It appears that all the decks have unique cards in terms of stats, even the ones from McDonald's Happy Meals.
+It appears that all the packs have unique cards in terms of stats, even the ones from McDonald's Happy Meals.
 
 ### Identical cards
 
-Some decks contain cards that are identical in terms of stats, for example:
+Some packs contain cards that are identical in terms of stats, for example:
 * McDonald's Minions: Rise of Gru - `Jean-Clawed` and `Svengeance`
 
 ### Unusual stats

@@ -1,0 +1,23 @@
+name: Packs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run_emulations:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        pack: ["packs/cats.csv","packs/elements.csv","packs/famous-art-robberies.csv","packs/harry-potter-and-the-deathly-hallows-part-2.csv","packs/mcdonalds-baby-animals.csv","packs/mcdonalds-minions-rise-of-gru.csv","packs/star-wars-rise-of-the-bounty-hunters.csv","packs/star-wars-starships.csv","packs/the-art-game.csv","packs/the-big-bang-theory.csv"]  # ls -1 packs/*.csv | jq -Rsc 'split("\n")[:-1]'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run emulations
+        run: |
+          python top_trumps.py --pack ${{ matrix.pack }}
