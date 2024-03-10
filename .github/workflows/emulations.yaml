@@ -1,0 +1,27 @@
+name: Number of emulations
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run_emulations:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        pack: ["packs/elements.csv","packs/mcdonalds-baby-animals.csv","packs/the-art-game.csv"]
+        emulations: [10000, 100000, 1000000]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run emulations
+        run: |
+          python top_trumps.py --pack ${{ matrix.pack }} --emulations ${{ matrix.emulations }}
