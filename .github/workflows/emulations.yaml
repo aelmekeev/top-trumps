@@ -21,4 +21,4 @@ jobs:
           python-version: '3.11'
       - name: Run emulations
         run: |
-          python top_trumps.py --pack ${{ matrix.pack }} --emulations ${{ matrix.emulations }}
+          python top_trumps.py --pack ${{ matrix.pack }} --emulations ${{ matrix.emulations }} >> $GITHUB_STEP_SUMMARY
