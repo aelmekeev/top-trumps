@@ -129,9 +129,9 @@ def main(pack, number_of_players, emulations, max_exchanges, get_stat_index_meth
         endless_games += 1
       total_exchanges += exchanges
 
-    print(f"Average number of exchanges: {total_exchanges // emulations}")
-    print(f"Average number of minutes per game: {round(total_exchanges * AVERAGE_NUMBER_OF_SECONDS_PER_EXCHANGE / 60 / emulations)}")
-    print(f"Number of endless games: {endless_games} ({endless_games * 100 // emulations}%)\n\n")
+    print(f"* Average number of exchanges: {total_exchanges // emulations}")
+    print(f"* Average number of minutes per game: {round(total_exchanges * AVERAGE_NUMBER_OF_SECONDS_PER_EXCHANGE / 60 / emulations)}")
+    print(f"* Number of endless games: {endless_games} ({endless_games * 100 // emulations}%)\n\n")
 
 if __name__ == '__main__':
     # read parameters from the command line
