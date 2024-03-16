@@ -39,6 +39,7 @@ It appears that all the packs have unique cards in terms of stats, even the ones
 
 Some packs contain cards that are identical in terms of stats, for example:
 * McDonald's Minions: Rise of Gru - `Jean-Clawed` and `Svengeance`
+* Carta Mundi's Aircraft - `Panavia Tornado ECR` and `Panavia Tornado IDS`
 
 ### Unusual stats
 
