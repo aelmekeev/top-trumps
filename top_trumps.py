@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from functools import lru_cache
 import glob
 import random
 
@@ -16,6 +17,7 @@ class Card:
     return self.stats[index]
   
   # selects random stat if there are multiple stats with the same value
+  @lru_cache
   def get_highest_stat_index(self, pack_stats) -> int:
     stats_relative = [((self.stats[i] - pack_stats.min[i]) / (pack_stats.max[i] - pack_stats.min[i])) for i in range(len(self.stats))]
     highest = max(stats_relative)
