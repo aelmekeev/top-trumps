@@ -14,6 +14,8 @@ The playtime for the packs from McDonald's should be quite predictable, even for
 
 The classic packs are a bit more complex, as the values of their stats can vary significantly — including year, height, price, etc. It may take a few games to determine what should be considered a "high" value for each stat, but otherwise, the gameplay doesn't differ much. Nonetheless, the classic packs show more variability in terms of playtime, ranging from [`34 to 56 minutes`](https://github.com/aelmekeev/top-trumps/actions/workflows/packs.yaml). In the first few games, where players might choose stats nearly at random, [the duration of the game can be reduced by up to 20%](https://github.com/aelmekeev/top-trumps/actions/workflows/strategies.yaml).
 
+The Mini Trumps series, which has fewer cards than even the McDonald's editions, seems to have the shortest average playtime of about 12 minutes. However, the pack tested also proved to be the most unstable.
+
 As evident, none of these durations come close to the 3-10 minutes mentioned on Wikipedia.
 
 ## Test conditions
